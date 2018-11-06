@@ -25,7 +25,7 @@ use light;
 use primitives::AuthorityId;
 use runtime_primitives::generic::BlockId;
 use runtime_primitives::traits::{Block as BlockT, Header as HeaderT, Zero,
-	NumberFor, As, Digest, DigestItem};
+	NumberFor, AsPrimitive, Digest, DigestItem};
 use runtime_primitives::Justification;
 use blockchain::{self, BlockStatus, HeaderBackend};
 use state_machine::backend::{Backend as StateBackend, InMemory};
@@ -511,7 +511,7 @@ where
 	}
 
 	fn revert(&self, _n: NumberFor<Block>) -> error::Result<NumberFor<Block>> {
-		Ok(As::sa(0))
+		Ok(Zero::zero())
 	}
 
 	fn insert_aux<'a, 'b: 'a, 'c: 'a, I: IntoIterator<Item=&'a (&'c [u8], &'c [u8])>, D: IntoIterator<Item=&'a &'b [u8]>>(&self, insert: I, delete: D) -> error::Result<()> {
