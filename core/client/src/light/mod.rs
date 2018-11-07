@@ -25,7 +25,7 @@ use std::sync::Arc;
 
 use primitives::{Blake2Hasher};
 use runtime_primitives::BuildStorage;
-use runtime_primitives::traits::Block as BlockT;
+use runtime_primitives::traits::{Block as BlockT, AsPrimitive, NumberFor};
 use state_machine::{CodeExecutor, ExecutionStrategy};
 
 use client::Client;
@@ -58,6 +58,7 @@ pub fn new_light<B, S, F, GS>(
 		S: BlockchainStorage<B>,
 		F: Fetcher<B>,
 		GS: BuildStorage,
+		u64: AsPrimitive<NumberFor<B>>,
 {
 	let executor = RemoteCallExecutor::new(backend.blockchain().clone(), fetcher);
 	Client::new(backend, executor, genesis_storage, ExecutionStrategy::NativeWhenPossible, ExecutionStrategy::NativeWhenPossible)
